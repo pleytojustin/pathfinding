@@ -33,14 +33,17 @@ def levelZero(maze, bot, size, gold):
     print(bot.pos)
     it = 0
     # print(bot.isGold(gold))
-    while(bot.isGold(gold)):
-        # print(it)
+    while(bot.isGold(gold) ):
+    # while(it != 10):
+        print(it)
         rotate_or_move = randint(0, 1)
         # IF 0 ROTATE if 1 MOVE forward
         #print(bot.restrict_pit_edges(maze,size))
         # if(bot.restrict_pit_edges(maze,size)):
         if(rotate_or_move):
-            bot.moveForward()
+            it = it + 1
+
+            bot.moveForward(size)
             print("FORWARD")
         else:
             bot.rotate(maze)
@@ -48,8 +51,24 @@ def levelZero(maze, bot, size, gold):
         # else:
         #     print("PIT WAS INFRONT")
             # bot.rotate(maze)
-        it = it + 1
         printMaze(maze)
+    
+def levelZeroNew():
+    it = 0 
+    while(bot.isGold(gold)):
+        rotate_or_move = randint(0, 1)
+        if(rotate_or_move):
+            it = it + 1
+
+            bot.moveForwardNew(size)
+            print("FORWARD")
+        else:
+            bot.rotate(maze)
+            print("ROTATE")          
+
+
+
+
         
 def scan(maze, bot,size):
     isGold = False
@@ -123,43 +142,92 @@ class bot:
     looking_at = "SOUTH"
     # ← → ↑ ↓ ↖ ↗ ↘ ↙
     def rotate(self, maze):
-        # try:
-        if(self.looking_at == "SOUTH"):
-            maze[self.x][self.y] = "←"
-            self.looking_at = "WEST"
-        elif(self.looking_at == "EAST"):
-            maze[self.x][self.y] = "↓"
-            self.looking_at = "SOUTH"
-        elif(self.looking_at == "NORTH"):
-            maze[self.x][self.y] = "→"
-            self.looking_at = "EAST"
-        elif(self.looking_at == "WEST"):
-            maze[self.x][self.y] = "↑"
-            self.looking_at = "NORTH"
-        # except IndexError:
-        #     pass 
-    def moveForward(self):
+        
         try:
-            if(self.looking_at == "WEST"):
-                maze[self.x][self.y] = "_"
-                self.y = self.y - 1
+            # print(str(self.x) + " AND xxxx  " + str(self.y) + " ROTATE")
+            # maze[3][3] = "x"
+            # printMaze(maze)
+            if(self.looking_at == "SOUTH"):
                 maze[self.x][self.y] = "←"
                 self.looking_at = "WEST"
-            elif(self.looking_at == "SOUTH"):
-                maze[self.x][self.y] = "_"
-                self.x = self.x + 1
+            elif(self.looking_at == "EAST"):
                 maze[self.x][self.y] = "↓"
                 self.looking_at = "SOUTH"
-            elif(self.looking_at == "EAST"):
-                maze[self.x][self.y] = "_"
-                self.y = self.y + 1
+            elif(self.looking_at == "NORTH"):
                 maze[self.x][self.y] = "→"
                 self.looking_at = "EAST"
-            elif(self.looking_at == "NORTH"):
-                maze[self.x][self.y] = "_"
-                self.x = self.x - 1
+            elif(self.looking_at == "WEST"):
                 maze[self.x][self.y] = "↑"
                 self.looking_at = "NORTH"
+        except IndexError:
+            pass 
+    def moveForward(self,size):
+        try:
+            print(str(self.x) + " AND xxxx " + str(self.y) + " FORWARD")
+            if(self.looking_at == "WEST"):
+                # print("----:", self.checkInfront(size,"WEST"))
+                if(self.checkInfront(size,"WEST")):
+                    maze[self.x][self.y] = "_"
+                    self.y = self.y - 1
+                    maze[self.x][self.y] = "←"
+                    self.looking_at = "WEST"
+                
+            elif(self.looking_at == "SOUTH"):
+                #print("----:", self.checkInfront(size,"SOUTH"))
+                if(self.checkInfront(size,"SOUTH")):
+                    maze[self.x][self.y] = "_"
+                    self.x = self.x + 1
+                    maze[self.x][self.y] = "↓"
+                    self.looking_at = "SOUTH"
+            elif(self.looking_at == "EAST"):
+                #print("----:", self.checkInfront(size,"EAST"))
+                if(self.checkInfront(size,"EAST")):
+                    maze[self.x][self.y] = "_"
+                    self.y = self.y + 1
+                    maze[self.x][self.y] = "→"
+                    self.looking_at = "EAST"
+            elif(self.looking_at == "NORTH"):
+                #print("----:", self.checkInfront(size,"NORTH"))
+                if(self.checkInfront(size,"NORTH")):
+                    maze[self.x][self.y] = "_"
+                    self.x = self.x - 1
+                    maze[self.x][self.y] = "↑"
+                    self.looking_at = "NORTH"
+        except IndexError:
+            pass
+        # return None
+    def moveForwardNew(self,size):
+        try:
+            print(str(self.x) + " AND xxxx " + str(self.y) + " FORWARD")
+            if(self.looking_at == "WEST"):
+                # print("----:", self.checkInfront(size,"WEST"))
+                if(self.checkInfront(size,"WEST")):
+                    maze[self.x][self.y] = "_"
+                    self.y = self.y - 1
+                    maze[self.x][self.y] = "←"
+                    self.looking_at = "WEST"
+                
+            elif(self.looking_at == "SOUTH"):
+                #print("----:", self.checkInfront(size,"SOUTH"))
+                if(self.checkInfront(size,"SOUTH")):
+                    maze[self.x][self.y] = "_"
+                    self.x = self.x + 1
+                    maze[self.x][self.y] = "↓"
+                    self.looking_at = "SOUTH"
+            elif(self.looking_at == "EAST"):
+                #print("----:", self.checkInfront(size,"EAST"))
+                if(self.checkInfront(size,"EAST")):
+                    maze[self.x][self.y] = "_"
+                    self.y = self.y + 1
+                    maze[self.x][self.y] = "→"
+                    self.looking_at = "EAST"
+            elif(self.looking_at == "NORTH"):
+                #print("----:", self.checkInfront(size,"NORTH"))
+                if(self.checkInfront(size,"NORTH")):
+                    maze[self.x][self.y] = "_"
+                    self.x = self.x - 1
+                    maze[self.x][self.y] = "↑"
+                    self.looking_at = "NORTH"
         except IndexError:
             pass
         # return None
@@ -194,6 +262,35 @@ class bot:
         else:
             return True
         return True
+    def restrict_pit_edges_can_fall_pit(self,maze,size):
+        # print(size - 1)
+        # print("x: " + str(self.x + 1))
+        # print("y: " + str(self.y + 1))
+        # print(size - 1)
+        if(int(self.x + 1) > int(size - 1) or (int(self.y) + 1) > size - 1):
+            print("out of bounds INFRONT")
+            return False
+        elif(self.looking_at == "WEST"):
+
+            print("PIT INFRONT")
+            return False
+
+        elif(self.looking_at == "SOUTH"):
+        
+            print("PIT INFRONT")
+            return False
+
+        elif(self.looking_at == "EAST"):
+            print("PIT INFRONT")
+            return False
+
+        elif(self.looking_at == "NORTH"):
+            print("PIT INFRONT")
+            return False
+
+        else:
+            return True
+        return True
     def isGold(self, gold):
         i = gold[0]
         j =  gold[1]
@@ -203,16 +300,66 @@ class bot:
         # print(self.x)
         # print(self.y)
         if(self.x  == i and self.y == j):
-            print(False)
+            print("FOUND GOLD!")
             return False
         else:
-            print(True)
             return True
+
+    def isPit(self, pit):
+        i = pit[0]
+        j =  pit[1]
+        # print(i)
+        # print(j)
+        # print("------ GOLD -----")
+        # print(self.x)
+        # print(self.y)
+        if(self.x  == i and self.y == j):
+            print("FOUND GOLD!")
+            return False
+        else:
+            return True
+
+    def checkInfront(self, size, position):
+        isInfrontValid = True
+        if(position == "WEST"):
+            #print(str(self.x) + " AND " + str(self.y - 1) + " LOOKING WEST")
+            if((0 <= (self.y - 1)) and (maze[self.x][self.y - 1] != "P")):
+                isInfrontValid = True
+            else:
+                print("CAN'T MOVE FORWARD WEST")
+                isInfrontValid = False
+        elif(position == "SOUTH"):
+            #print(str(self.x  + 1) + " AND " + str(self.y) + " LOOKING SOUTH")
+
+            if((size > ( self.x + 1)) and (maze[self.x + 1][self.y] != "P")):
+                isInfrontValid = True
+            else:
+                print("CAN'T MOVE FORWARD SOUTH")
+                isInfrontValid = False
+        elif(position == "EAST"):
+            #print(str(self.x) + " AND " + str(self.y + 1) + " LOOKING EAST")
+            if((size > (self.y + 1)) and (maze[self.x][self.y + 1] != "P")):
+        
+                isInfrontValid = True
+            else:
+                print("CAN'T MOVE FORWARD EAST")
+                isInfrontValid = False
+        elif(position == "NORTH"):
+            #print(str(self.x - 1) + " AND " + str(self.y) + " LOOKING NORTH")
+            if((0 <= (self.x - 1)) and (maze[self.x - 1][self.y] != "P")):     
+                
+                isInfrontValid = True
+            else:
+                print("CAN'T MOVE FORWARD NORTH")
+                isInfrontValid = False
+  
+        return isInfrontValid
+        
 def printMaze(maze):
     for m in maze:
         print (*m, sep=" ")
 if __name__ == "__main__":
-    size = 7
+    size = 30
     
     #INITALIZE BOT
     bot = bot()
@@ -227,7 +374,97 @@ if __name__ == "__main__":
     beacon = (5,8)
     pitArray = [(2,5),(3,5),(4,5),(5,5),(0,1)]
     maze = initializeMaze(startingPoint, gold, beacon, pitArray, size)
+ 
+    # printMaze(maze)
     # bot.rotate(maze)
+    # print("000000")
+    # printMaze(maze)
+    # bot.rotate(maze)
+    # # print(str(bot.x) )
+    # # print(str(bot.y) )
+
+  
+    # # bot.rotate(maze)
+    # # printMaze(maze)
+    # print("000000")
+    # bot.moveForward(size)
+    # printMaze(maze)
+    # print("000000")
+    # bot.rotate(maze)
+    # printMaze(maze)
+    # print("000000")
+    # bot.rotate(maze)
+    # printMaze(maze)
+    # print("000000")
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.rotate(maze)
+    # printMaze(maze)
+
+    # bot.rotate(maze)
+    # printMaze(maze)
+
+    # bot.rotate(maze)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)  
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.moveForward(size)
+    # printMaze(maze)
+
+    # bot.rotate(size)
+    # printMaze(maze)
+
+    # if(bot.checkInfront(size,"WEST")):
+    #     bot.moveForward(size)
     # bot.rotate(maze)
     # bot.rotate(maze)
     # bot.rotate(maze)
