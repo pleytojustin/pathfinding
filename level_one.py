@@ -54,29 +54,37 @@ def levelOne(maze, bot, size, gold, pit, beacon):
         foundGoldMoveForwardToGold(maze, bot, size, gold, iMove, iRotate)
     # print(scanned)
 def scanAround(bot, size, maze, iMove, iRotate):
-    print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+
     # bot.moveForward(size)
     scanned = bot.scan(maze,bot,size)
     bot.memSouth = scanned
-    # print(bot.memSouth)
-
     bot.rotate(maze)
-    scanned = bot.scan(maze,bot,size)
-    bot.memWest = scanned
-    # print(bot.memWest)
-
-    bot.rotate(maze)
-    scanned = bot.scan(maze,bot,size)
-    bot.memNorth = scanned
-    # print(bot.memNorth)
-
-    bot.rotate(maze)
-    scanned = bot.scan(maze,bot,size)
-    bot.memEast = scanned
-    # print(bot.memEast)
-    bot.rotate(maze)
+    print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
     printMaze(maze)
     print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
+
+    scanned = bot.scan(maze,bot,size)
+    bot.memWest = scanned
+    bot.rotate(maze)
+    print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+    printMaze(maze)
+    print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
+
+    scanned = bot.scan(maze,bot,size)
+    bot.memNorth = scanned
+    bot.rotate(maze)
+    print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+    printMaze(maze)
+    print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
+
+    scanned = bot.scan(maze,bot,size)
+    bot.memEast = scanned
+    bot.rotate(maze)
+    print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+    printMaze(maze)
+    print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
+    
+
 
     return bot
 
