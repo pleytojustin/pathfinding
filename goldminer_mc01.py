@@ -8,6 +8,10 @@ class bot:
     y = 0
     isOnBeacon = False
     looking_at = "SOUTH"
+    memNorth = ""
+    memSouth = ""
+    memEast = ""
+    memWest = ""
     def isGold(self, gold):
         i = gold[0]
         j =  gold[1]
@@ -17,6 +21,16 @@ class bot:
             return True
         else:
             return False
+    def isBeacon(self, beacon):
+        isBeacon = False
+        for b in beacon:
+            i = b[0]
+            j = b[1]
+            if(self.x == i and self.y == j):
+                print("At BEACON")
+                isBeacon = True
+
+        return isBeacon
     def isPit(self, pit):
         isPit = False
         for p in pit:
@@ -60,7 +74,7 @@ class bot:
                         
                         self.isOnBeacon = True
                     else:
-                        print("NOT BEACON")
+                   
                         self.isOnBeacon = False
                     
                     self.y = self.y - 1
@@ -79,7 +93,7 @@ class bot:
                         print("BEACON")
                         self.isOnBeacon = True
                     else:
-                        print("NOT BEACON")
+                    
                         self.isOnBeacon = False
                      
                     self.x = self.x + 1
@@ -97,7 +111,7 @@ class bot:
                         print("BEACON")
                         self.isOnBeacon = True
                     else:
-                        print("NOT BEACON")
+            
                         self.isOnBeacon = False
                                  
                     self.y = self.y + 1
@@ -115,7 +129,7 @@ class bot:
                         print("BEACON")
                         self.isOnBeacon = True
                     else:
-                        print("NOT BEACON")
+                    
                         self.isOnBeacon = False
                              
                     self.x = self.x - 1
@@ -203,34 +217,58 @@ class bot:
         x = self.x
         y = self.y
         if(self.looking_at == "SOUTH"):
-            print("SOUTH")
+    
             for i in range(size - x):
                 if maze[x + i][y] == "G":
                     scanned = "G"
-                  
+                    break
+                if maze[x + i][y] == "B":
+                    scanned = "B"
+                    break
+                if maze[x + i][y] == "P":
+                    scanned = "P"  
+                    break                  
                     
                 
         elif(self.looking_at == "NORTH"):
-            print("FACING NORTH")
+         
             for i in range(x):
             
                 if maze[i ][y] == "G":
                     scanned = "G"
-              
+                    break
+                if maze[i ][y] == "B":
+                    scanned = "B"
+                    break
+                if maze[i ][y] == "P":
+                    scanned = "P"    
+                    break            
                             
-            print("NORTH")
+     
         elif(self.looking_at == "EAST"):
-            print("FACING EAST")
+          
             for i in range(size - y):
                 if maze[x][y + i] == "G":
                     scanned = "G"
-          
+                    break
+                if maze[x][y + i] == "B":
+                    scanned = "B"
+                    break
+                if maze[x][y + i] == "P":
+                    scanned = "P"      
+                    break 
         elif(self.looking_at == "WEST"):
-            print("FACING WEST")
+            
             for i in range(y):
                 if maze[x][i] == "G":
                     scanned = "G"
-               
+                    break
+                if maze[x][i] == "B":
+                    scanned = "B"
+                    break
+                if maze[x][i] == "P":
+                    scanned = "P"    
+                    break       
 
         # print(isGold)
         return scanned
@@ -258,7 +296,7 @@ def initializeMaze(startingPoint, gold, beacon, pitArray,size):
     return initalMaze
 
 if __name__ == "__main__":
-    size = 10
+    size = 30
     
     #INITALIZE BOT
     bot = bot()
@@ -266,11 +304,11 @@ if __name__ == "__main__":
     startingPoint = (0,0)
     bot.x = startingPoint[0]
     bot.y = startingPoint[1]
-    gold = (5,0)
+    gold = (9,2)
     #beacon = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
     beacon = [(5,2), (9,0)]
 
-    pitArray = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
+    pitArray = [(2,5),(3,5),(4,5),(5,5),]
     # pitArray = []
     maze = initializeMaze(startingPoint, gold, beacon, pitArray, size)
 
@@ -279,4 +317,4 @@ if __name__ == "__main__":
 
        
     #levelZero(maze, bot, size, gold, pitArray)
-    levelOne(maze, bot, size, gold, pitArray)
+    levelOne(maze, bot, size, gold, pitArray, beacon)
