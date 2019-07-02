@@ -6,7 +6,7 @@ from level_one import *
 class bot:
     x = 0
     y = 0
-
+    isOnBeacon = False
     looking_at = "SOUTH"
     def isGold(self, gold):
         i = gold[0]
@@ -51,7 +51,18 @@ class bot:
                 # print("----:", self.checkInfront(size,"WEST"))
                 # if(self.checkInfront_with_pit(size,"WEST")): #NO DEATH IN PIT
                 if(self.isMoveValid(size,"WEST")): # DEATH IN PIT
-                    maze[self.x][self.y] = "_"
+                    if(self.isOnBeacon == False):
+                        maze[self.x][self.y] = "_"        
+                    else:
+                        maze[self.x][self.y] = "B"
+                    if(maze[self.x][self.y - 1] == "B"):
+                        print("BEACON")
+                        
+                        self.isOnBeacon = True
+                    else:
+                        print("NOT BEACON")
+                        self.isOnBeacon = False
+                    
                     self.y = self.y - 1
                     maze[self.x][self.y] = "←"
                     self.looking_at = "WEST"
@@ -60,7 +71,17 @@ class bot:
                 #print("----:", self.checkInfront(size,"SOUTH"))
                 # if(self.checkInfront_with_pit(size,"SOUTH")): #NO DEATH IN PIT
                 if(self.isMoveValid(size,"SOUTH")): # DEATH IN PIT
-                    maze[self.x][self.y] = "_"
+                    if(self.isOnBeacon == False):
+                        maze[self.x][self.y] = "_"      
+                    else:
+                        maze[self.x][self.y] = "B"
+                    if(maze[self.x + 1][self.y] == "B"):
+                        print("BEACON")
+                        self.isOnBeacon = True
+                    else:
+                        print("NOT BEACON")
+                        self.isOnBeacon = False
+                     
                     self.x = self.x + 1
                     maze[self.x][self.y] = "↓"
                     self.looking_at = "SOUTH"
@@ -68,7 +89,17 @@ class bot:
                 #print("----:", self.checkInfront(size,"EAST"))
                 # if(self.checkInfront_with_pit(size,"EAST")): #NO DEATH IN PIT
                 if(self.isMoveValid(size,"EAST")): # DEATH IN PIT
-                    maze[self.x][self.y] = "_"
+                    if(self.isOnBeacon == False):
+                        maze[self.x][self.y] = "_"    
+                    else:
+                        maze[self.x][self.y] = "B"  
+                    if(maze[self.x][self.y + 1] == "B"):
+                        print("BEACON")
+                        self.isOnBeacon = True
+                    else:
+                        print("NOT BEACON")
+                        self.isOnBeacon = False
+                                 
                     self.y = self.y + 1
                     maze[self.x][self.y] = "→"
                     self.looking_at = "EAST"
@@ -76,7 +107,17 @@ class bot:
                 #print("----:", self.checkInfront(size,"NORTH"))
                 # if(self.checkInfront_with_pit(size,"NORTH")): #NO DEATH IN PIT
                 if(self.isMoveValid(size,"NORTH")): # DEATH IN PIT
-                    maze[self.x][self.y] = "_"
+                    if(self.isOnBeacon == False):
+                        maze[self.x][self.y] = "_"
+                    else:
+                        maze[self.x][self.y] = "B"
+                    if(maze[self.x - 1][self.y] == "B"):
+                        print("BEACON")
+                        self.isOnBeacon = True
+                    else:
+                        print("NOT BEACON")
+                        self.isOnBeacon = False
+                             
                     self.x = self.x - 1
                     maze[self.x][self.y] = "↑"
                     self.looking_at = "NORTH"
@@ -165,8 +206,8 @@ class bot:
             print("SOUTH")
             for i in range(size - x):
                 if maze[x + i][y] == "G":
-                    scanned = True
-                    print("FOUND GOLD")
+                    scanned = "G"
+                  
                     
                 
         elif(self.looking_at == "NORTH"):
@@ -174,22 +215,22 @@ class bot:
             for i in range(x):
             
                 if maze[i ][y] == "G":
-                    scanned = True
-                    print("FOUND GOLD")
+                    scanned = "G"
+              
                             
             print("NORTH")
         elif(self.looking_at == "EAST"):
             print("FACING EAST")
             for i in range(size - y):
                 if maze[x][y + i] == "G":
-                    scanned = True
-                    print("FOUND GOLD")
+                    scanned = "G"
+          
         elif(self.looking_at == "WEST"):
             print("FACING WEST")
             for i in range(y):
                 if maze[x][i] == "G":
-                    scanned = True
-                    print("FOUND GOLD")
+                    scanned = "G"
+               
 
         # print(isGold)
         return scanned
@@ -205,6 +246,9 @@ def initializeMaze(startingPoint, gold, beacon, pitArray,size):
     initalMaze[gold[0]][gold[1]] = "G"
 
     #initalize Beacon
+    for b in beacon:
+
+        initalMaze[b[0]][b[1]] = "B"
     # initalMaze[beacon[0]][beacon[1]] = "B"
 
     #initalize Pit Array
@@ -214,7 +258,7 @@ def initializeMaze(startingPoint, gold, beacon, pitArray,size):
     return initalMaze
 
 if __name__ == "__main__":
-    size = 30
+    size = 10
     
     #INITALIZE BOT
     bot = bot()
@@ -222,10 +266,12 @@ if __name__ == "__main__":
     startingPoint = (0,0)
     bot.x = startingPoint[0]
     bot.y = startingPoint[1]
-    gold = (5,1)
-    beacon = (5,8)
+    gold = (5,0)
+    #beacon = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
+    beacon = [(5,2), (9,0)]
+
     pitArray = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
-    pitArray = []
+    # pitArray = []
     maze = initializeMaze(startingPoint, gold, beacon, pitArray, size)
 
     print("Maze Initalized")
