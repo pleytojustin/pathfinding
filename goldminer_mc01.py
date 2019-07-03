@@ -302,14 +302,18 @@ if __name__ == "__main__":
     bot = bot()
 
     startingPoint = (0,0)
+    # startingPoint = (0,5)
     bot.x = startingPoint[0]
     bot.y = startingPoint[1]
-    gold = (9,2)
+    # gold = (2,0)
+    gold = (5,29)
+    #gold = (5,5)
     #beacon = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
-    beacon = [(5,2), (9,0)]
+    beacon = [(0,29)]
+    # beacon = []
 
     pitArray = [(2,5),(3,5),(4,5),(5,5),]
-    # pitArray = []
+    pitArray = []
     maze = initializeMaze(startingPoint, gold, beacon, pitArray, size)
 
     print("Maze Initalized")

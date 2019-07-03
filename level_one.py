@@ -10,6 +10,8 @@ def levelOne(maze, bot, size, gold, pit, beacon):
     # bot = scanAround(bot,size,maze, iMove, iRotate)
     # print(bot.memEast)
     # print("LOOKING EAST? " + str(bot.memEast))
+    i = 0 
+    #while i != 6:
     while True:
         print("\n/////////////////////// LOOOP  /////////////////////////////////// ")        
         # print(i)
@@ -23,18 +25,29 @@ def levelOne(maze, bot, size, gold, pit, beacon):
 
         bot = scanAround(bot,size,maze, iMove, iRotate)
         move = whereToMove(bot,maze)
+        print(bot.memNorth)
+        print(bot.memEast)
+        print(bot.memSouth)
+        print(bot.memWest)
         #THIS IS THE SCANNED AREA
-        if(move == "B"):
+        print("THE MOVE " + move)
+        if(move == "G"):
+            break
+        elif(move == "B"):
             foundBeaconMoveForwardToBeacon(maze, bot, size, beacon, iMove, iRotate)
             bot = scanAround(bot,size,maze, iMove, iRotate)
             move = whereToMove(bot,maze)
             break
-            print("BEACON")
-        if(move == "G"):
-            break
-        
-        
-        print("LOOKING EAST? " + str(bot.memEast))
+        else:
+            #DO LOGIC MOVE
+            print("MOVE")
+            # if(move == "E"):
+            bot.moveForward(size)
+            # bot.rotate(maze)
+            #     move = ""
+                
+                
+        # print("LOOKING EAST? " + str(bot.memEast))
 
 
         # rotate_or_move = randint(0, 1)
@@ -48,7 +61,7 @@ def levelOne(maze, bot, size, gold, pit, beacon):
 
 
         printMaze(maze)
-
+        i = i + 1
         print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ")     
     if(move == "G"):
         foundGoldMoveForwardToGold(maze, bot, size, gold, iMove, iRotate)
@@ -83,7 +96,7 @@ def scanAround(bot, size, maze, iMove, iRotate):
     print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
     printMaze(maze)
     print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
-    
+
 
 
     return bot
@@ -92,31 +105,43 @@ def scanAround(bot, size, maze, iMove, iRotate):
 def whereToMove(bot, maze):
     move = ""
 
-    #GOLD WAS FOUND
+    #DO OTHER LOGIC BEFORE DOING G O B    
+    #LOGIC BASE ON WHAT IT SAW 
+    # if(bot.memEast == "N"):
+    #     # bot.rotate(maze)
+    #     # bot.rotate(maze)
+    #     # bot.rotate(maze)
+    #     move = "E"
+    #SOUTH
     if(bot.memSouth == "G"):
         move = "G"
-       
-    elif(bot.memWest == "G"):
-        move = "G"
-        bot.rotate(maze)
-    elif(bot.memNorth == "G"):
-        move = "G"
-        bot.rotate(maze)
-        bot.rotate(maze)
-    elif(bot.memEast == "G"):
-        move = "G"
-        bot.rotate(maze)
-        bot.rotate(maze)
-        bot.rotate(maze)
-
     elif(bot.memSouth == "B"):
         move = "B"
-       
+
+
+
+    #WEST
+    if(bot.memWest == "G"):
+        move = "G"
+        bot.rotate(maze)
     elif(bot.memWest == "B"):
         move = "B"
         bot.rotate(maze)
+
+    #NORTH
+    if(bot.memNorth == "G"):
+        move = "G"
+        bot.rotate(maze)
+        bot.rotate(maze)
     elif(bot.memNorth == "B"):
         move = "B"
+        bot.rotate(maze)
+        bot.rotate(maze)
+
+    #EAST
+    if(bot.memEast == "G"):
+        move = "G"
+        bot.rotate(maze)
         bot.rotate(maze)
         bot.rotate(maze)
     elif(bot.memEast == "B"):
@@ -124,6 +149,8 @@ def whereToMove(bot, maze):
         bot.rotate(maze)
         bot.rotate(maze)
         bot.rotate(maze)
+
+
 
     return move
 
@@ -133,8 +160,9 @@ def foundGoldMoveForwardToGold(maze, bot, size, gold, iMove, iRotate):
         print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
         bot.moveForward(size)
         isGold = bot.isGold(gold)
-
+ 
         printMaze(maze)
+        
         print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
         if(isGold == True):
             break
