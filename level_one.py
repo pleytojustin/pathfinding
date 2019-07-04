@@ -7,12 +7,13 @@ def levelOne(maze, bot, size, gold, pit, beacon):
     ifGoldWasFound = False
     scanned = ""
     move = ""
+    hitBottom = False
     # bot = scanAround(bot,size,maze, iMove, iRotate)
     # print(bot.memEast)
     # print("LOOKING EAST? " + str(bot.memEast))
     i = 0 
-    #while i != 6:
-    while True:
+    while i != 38:
+    # while True:
         print("\n/////////////////////// LOOOP  /////////////////////////////////// ")        
         # print(i)
         isGold = bot.isGold(gold)
@@ -22,42 +23,43 @@ def levelOne(maze, bot, size, gold, pit, beacon):
         if(isGold == True):
             break
         # scanned = bot.scan(maze,bot,size)
-
-        bot = scanAround(bot,size,maze, iMove, iRotate)
-        move = whereToMove(bot,maze)
-        print(bot.memNorth)
-        print(bot.memEast)
-        print(bot.memSouth)
-        print(bot.memWest)
+        if(i == 0):
+            bot = scanAround(bot,size,maze, iMove, iRotate, "SOUTH")
+            move = whereToMove(bot,maze)
+        elif(hitBottom):
+            bot = scanAround(bot,size,maze, iMove, iRotate, "EAST")
+            move = whereToMove(bot,maze)
+        else:
+            bot = scanAround(bot,size,maze, iMove, iRotate, "SOUTH")
+            move = whereToMove(bot,maze)  
+        # print(bot.memNorth)
+        # print(bot.memEast)
+        # print(bot.memSouth)
+        # print(bot.memWest)
+        print(hitBottom)
         #THIS IS THE SCANNED AREA
-        print("THE MOVE " + move)
         if(move == "G"):
             break
         elif(move == "B"):
             foundBeaconMoveForwardToBeacon(maze, bot, size, beacon, iMove, iRotate)
-            bot = scanAround(bot,size,maze, iMove, iRotate)
+            bot = scanAround(bot,size,maze, iMove, iRotate, "SOUTH")
             move = whereToMove(bot,maze)
             break
         else:
-            #DO LOGIC MOVE
             print("MOVE")
-            # if(move == "E"):
+            if(bot.x == (size - 1)):
+                print("i'm in the bottom")
+                hitBottom = True
+                # bot.rotate(maze)
+                # bot.rotate(maze)
+                # bot.rotate(maze)
+            elif(bot.x == 0):
+                hitBottom = False
+                print("i'm in the top")
+
             bot.moveForward(size)
-            # bot.rotate(maze)
-            #     move = ""
+      
                 
-                
-        # print("LOOKING EAST? " + str(bot.memEast))
-
-
-        # rotate_or_move = randint(0, 1)
-        # if(rotate_or_move):
-        #     iMove = iMove + 1
-        #     bot.moveForward(size)
-
-        # else:
-        #     iRotate = iRotate + 1
-        #     bot.rotate(maze)
 
 
         printMaze(maze)
@@ -66,7 +68,7 @@ def levelOne(maze, bot, size, gold, pit, beacon):
     if(move == "G"):
         foundGoldMoveForwardToGold(maze, bot, size, gold, iMove, iRotate)
     # print(scanned)
-def scanAround(bot, size, maze, iMove, iRotate):
+def scanAround(bot, size, maze, iMove, iRotate, faceing):
 
     # bot.moveForward(size)
     scanned = bot.scan(maze,bot,size)
@@ -97,8 +99,66 @@ def scanAround(bot, size, maze, iMove, iRotate):
     printMaze(maze)
     print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ") 
 
+        
+
+    if(faceing == "WEST"):
+        if(bot.looking_at == "NORTH"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "EAST"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "SOUTH"):
+            bot.rotate(maze)
+
+        print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+        printMaze(maze)
+        print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ")
+    elif(faceing == "NORTH"):
+        if(bot.looking_at == "WEST"):
+            bot.rotate(maze)
+        elif(bot.looking_at == "EAST"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "SOUTH"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+
+        print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+        printMaze(maze)
+        print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ")  
+
+    elif(faceing == "EAST"):
+        if(bot.looking_at == "WEST"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "NORTH"):
+            bot.rotate(maze)
+        elif(bot.looking_at == "SOUTH"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+            bot.rotate(maze)
+
+        print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+        printMaze(maze)
+        print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ")  
+    elif(faceing == "SOUTH"):
+        if(bot.looking_at == "WEST"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "NORTH"):
+            bot.rotate(maze)
+            bot.rotate(maze)
+        elif(bot.looking_at == "EAST"):
+            bot.rotate(maze)
 
 
+        print("\n/////////////////////// LOOOP  /////////////////////////////////// ")   
+        printMaze(maze)
+        print("///////////////////// FORWARD: " + str(iMove) + " ROTATE: " + str(iRotate) + " ////////////////////// ")  
     return bot
 
 
