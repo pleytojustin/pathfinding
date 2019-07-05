@@ -2,7 +2,8 @@ from random import seed
 from random import randint
 from pandas import *
 from level_zero import *
-from level_one import *
+# from level_one import *
+from one import *
 class bot:
     x = 0
     y = 0
@@ -12,6 +13,12 @@ class bot:
     memSouth = ""
     memEast = ""
     memWest = ""
+    hitEast = False
+    hitNorth = False
+    hitWest = False
+    hitSouth = False
+    botOldBeacon = (0,0)
+    botNewBeacon = (0,0)
     def isGold(self, gold):
         i = gold[0]
         j =  gold[1]
@@ -232,7 +239,7 @@ class bot:
                 
         elif(self.looking_at == "NORTH"):
          
-            for i in range(x):
+            for i in reversed(range(x)):
             
                 if maze[i ][y] == "G":
                     scanned = "G"
@@ -259,7 +266,7 @@ class bot:
                     break 
         elif(self.looking_at == "WEST"):
             
-            for i in range(y):
+            for i in reversed(range(y)):
                 if maze[x][i] == "G":
                     scanned = "G"
                     break
@@ -307,17 +314,33 @@ if __name__ == "__main__":
     bot.x = startingPoint[0]
     bot.y = startingPoint[1]
     gold = (0,5)
-    gold = (4,7)
+    gold = (5,7)
+    # gold = (6,20)
+
 
     # gold = (5,29)
     #gold = (5,5)
     #beacon = [(2,5),(3,5),(4,5),(5,5),(0,1),(0,2)]
     #beacon = [(0,29)]
     # beacon = [(6,10)]
+    # beacon = [(6,6)]
+
     beacon = []
 
-    pitArray = [(2,5),(3,5),(4,5),(5,5),]
-    #pitArray = []
+    #pitArray = [(2,5),(3,5),(4,5),(5,5),(6,5)]
+    pitArray = []
+
+
+    #TEST 1
+    # pitArray = [(2,5),(3,5),(4,5),(5,5),(6,5),(5,0),(6,1),(7,2),(8,3),(0,5),(1,5),(3,29)]
+    pitArray = [(2,5),(3,5),(4,5),(5,5),(5,4),(5,3),(5,2),(1,5),(5,1),(6,5),(28,20),(29,21),(5,0),(1,29)]
+    #()
+    # beacon = [(20,4)]
+    # pitArray = [(20,29)]
+    gold = (29,20)
+
+
+
     maze = initializeMaze(startingPoint, gold, beacon, pitArray, size)
 
     print("Maze Initalized")
