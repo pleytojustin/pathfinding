@@ -4,6 +4,7 @@ from pandas import *
 from level_zero import *
 # from level_one import *
 from one import *
+from two import * 
 class bot:
     x = 0
     y = 0
@@ -19,6 +20,10 @@ class bot:
     hitSouth = False
     botOldBeacon = (0,0)
     botNewBeacon = (0,0)
+    movementQueue = {}
+    g = {} #Actual movement cost to each position from the start position
+    f = {} #Estimated movement cost of start to end going via this position
+
     def isGold(self, gold):
         i = gold[0]
         j =  gold[1]
@@ -333,7 +338,7 @@ if __name__ == "__main__":
 
     #TEST 1
     # pitArray = [(2,5),(3,5),(4,5),(5,5),(6,5),(5,0),(6,1),(7,2),(8,3),(0,5),(1,5),(3,29)]
-    pitArray = [(2,5),(3,5),(4,5),(5,5),(5,4),(5,3),(5,2),(1,5),(5,1),(6,5),(28,20),(29,21),(5,0),(1,29)]
+    pitArray = [(2,5),(3,5),(4,5),(5,5),(5,4),(5,3),(5,2),(1,5),(5,1),(6,5),(28,20),(29,21),(1,29)]
     #()
     # beacon = [(20,4)]
     # pitArray = [(20,29)]
@@ -348,4 +353,5 @@ if __name__ == "__main__":
 
        
     #levelZero(maze, bot, size, gold, pitArray)
-    levelOne(maze, bot, size, gold, pitArray, beacon)
+    #levelOne(maze, bot, size, gold, pitArray, beacon)
+    levelTwo(maze, bot, size, gold, pitArray, beacon)
